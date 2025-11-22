@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GM7studio | Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            citrine: '#F9B73F',   // Primary Yellow
+                            citrineDark: '#e0a02e', 
+                            basalt: '#191919',    // Dark Bg
+                            shale: '#114036',     // Dark Green
+                            malachite: '#16AF8E', // Turquoise
+                            gypsum: '#F9F3D9',    // Light Bg
+                            white: '#ffffff',
+                            offwhite: '#fdfbf4'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"IBM Plex Sans Arabic"', '"Outfit"', 'sans-serif'], 
+                    },
+                    animation: {
+                        'blob': 'blob 12s infinite',
+                        'scroll': 'scroll 30s linear infinite',
+                        'scroll-reverse': 'scrollReverse 30s linear infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        scroll: {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(calc(-100% - 2rem))' }, 
+                        },
+                        scrollReverse: {
+                            '0%': { transform: 'translateX(calc(-100% - 2rem))' },
+                            '100%': { transform: 'translateX(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        
+        html[lang="en"] body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        .dark ::-webkit-scrollbar-thumb { background: #F9B73F; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #16AF8E; border-radius: 4px; }
+        
+        ::selection { background-color: #16AF8E; color: #fff; }
+        .dark ::selection { background-color: #F9B73F; color: #191919; }
+
+        .glass-nav {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid;
+        }
+        .dark .glass-nav { background: rgba(17, 64, 54, 0.8); border-color: rgba(255,255,255,0.05); }
+        .glass-nav { background: rgba(255, 255, 255, 0.7); border-color: rgba(22, 175, 142, 0.1); }
+
+        .btn-hover-effect:hover { transform: translateY(-2px); }
+        html:not(.dark) .btn-hover-effect:hover {
+            box-shadow: 0 10px 25px -10px rgba(22, 175, 142, 0.4);
+            border-color: #16AF8E;
+            color: #16AF8E; 
+        }
+        html:not(.dark) .bg-brand-citrine.btn-hover-effect:hover {
+            background-color: #16AF8E; color: #ffffff;
+        }
+        html.dark .btn-hover-effect:hover {
+            box-shadow: 0 10px 25px -10px rgba(249, 183, 63, 0.4);
+        }
+
+        .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px -15px rgba(0,0,0,0.05); }
+        
+        .form-input:focus { outline: none; }
+        html:not(.dark) .form-input:focus { border-color: #16AF8E; box-shadow: 0 0 0 3px rgba(22, 175, 142, 0.15); }
+        html.dark .form-input:focus { border-color: #F9B73F; box-shadow: 0 0 0 3px rgba(249, 183, 63, 0.15); }
+
+        .logo-text { direction: ltr; display: inline-flex; align-items: center; gap: 0.25rem; }
+        
+        .hero-pattern {
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+        }
+        html:not(.dark) .hero-pattern { background-image: radial-gradient(#16AF8E 0.8px, transparent 0.8px); opacity: 0.15; }
+        html.dark .hero-pattern { background-image: radial-gradient(#16AF8E 1px, transparent 1px); opacity: 0.15; }
+        
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; z-index: 100; transition: all 0.3s ease; }
+        .whatsapp-float:hover { transform: scale(1.1); }
+        .whatsapp-pulse { animation: whatsapp-pulse 2s infinite; }
+        @keyframes whatsapp-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(22, 175, 142, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(22, 175, 142, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(22, 175, 142, 0); }
+        }
+
+        .partners-slider {
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        .partners-track { display: flex; gap: 2rem; width: max-content; }
+        html[dir="rtl"] .animate-scroll { animation: scrollReverse 30s linear infinite; }
+        html[dir="ltr"] .animate-scroll { animation: scroll 30s linear infinite; }
+
+        .stat-number { display: inline-block; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        html:not(.dark) .stat-item:hover .stat-number { color: #16AF8E; transform: scale(1.25) translateY(-5px); text-shadow: 0 10px 20px rgba(22, 175, 142, 0.2); }
+        html.dark .stat-item:hover .stat-number { color: #F9B73F; transform: scale(1.25) translateY(-5px); text-shadow: 0 10px 20px rgba(249, 183, 63, 0.3); }
+        
+        html:not(.dark) .nav-link:hover { color: #16AF8E; }
+        html.dark .nav-link:hover { color: #F9B73F; }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-white via-brand-offwhite to-brand-gypsum dark:bg-none dark:bg-brand-basalt text-brand-basalt dark:text-brand-gypsum antialiased selection:bg-brand-citrine selection:text-brand-basalt min-h-screen flex flex-col">
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/966501193569" target="_blank" class="whatsapp-float flex items-center justify-center w-14 h-14 bg-brand-malachite rounded-full text-brand-white shadow-lg whatsapp-pulse" title="WhatsApp">
+        <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="fill-current stroke-none"><path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.966-.944 1.164-.173.199-.347.223-.648.075-.301-.15-1.272-.468-2.421-1.491-.899-.8-1.505-1.79-1.68-2.089-.175-.299-.019-.461.131-.609.134-.133.298-.347.446-.521.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.199 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.572-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </a>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-black tracking-tighter text-brand-basalt dark:text-white logo-text group">
+                <div class="w-3 h-3 bg-brand-malachite dark:bg-brand-citrine rounded-full group-hover:scale-125 transition-transform"></div>
+                GM7<span class="text-brand-malachite dark:text-brand-citrine">studio</span>
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-8 rtl:space-x-reverse">
+                <a href="#home" class="nav-link text-sm font-bold transition-colors" data-i18n="nav_home">الرئيسية</a>
+                <a href="#services" class="nav-link text-sm font-bold transition-colors" data-i18n="nav_services">خدماتي</a>
+                <a href="#portfolio" class="nav-link text-sm font-bold transition-colors" data-i18n="nav_portfolio">أعمالي</a>
+                
+                <div class="w-px h-6 bg-brand-basalt/10 dark:bg-white/10 mx-4"></div>
+
+                <button onclick="toggleLanguage()" class="nav-link text-sm font-bold transition-colors flex items-center gap-1">
+                    <i data-lucide="languages" class="w-4 h-4"></i>
+                    <span id="lang-text">EN</span>
+                </button>
+
+                <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-brand-basalt/5 dark:hover:bg-brand-shale transition-colors text-brand-basalt dark:text-brand-citrine">
+                    <i id="theme-icon" data-lucide="moon" class="w-5 h-5"></i>
+                </button>
+
+                <a href="#contact" class="px-6 py-2.5 bg-brand-citrine text-brand-basalt font-bold rounded-full btn-hover-effect transition-all shadow-lg shadow-brand-citrine/20 dark:shadow-none" data-i18n="nav_contact">
+                    اطلب تصميم
+                </a>
+            </div>
+
+            <div class="flex items-center gap-4 md:hidden">
+                <button onclick="toggleLanguage()" class="font-bold text-sm"><span id="lang-text-mobile">EN</span></button>
+                <button onclick="toggleTheme()" class="p-2 text-brand-basalt dark:text-brand-citrine"><i id="theme-icon-mobile" data-lucide="moon" class="w-5 h-5"></i></button>
+                <button class="text-brand-basalt dark:text-white" onclick="toggleMenu()"><i data-lucide="menu" class="w-7 h-7"></i></button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-offwhite dark:bg-brand-shale border-b border-brand-malachite/20">
+            <div class="flex flex-col px-6 py-4 space-y-4">
+                <a href="#home" class="block font-medium hover:text-brand-malachite dark:hover:text-brand-citrine" data-i18n="nav_home">الرئيسية</a>
+                <a href="#services" class="block font-medium hover:text-brand-malachite dark:hover:text-brand-citrine" data-i18n="nav_services">خدماتي</a>
+                <a href="#portfolio" class="block font-medium hover:text-brand-malachite dark:hover:text-brand-citrine" data-i18n="nav_portfolio">أعمالي</a>
+                <a href="#contact" class="block text-brand-malachite dark:text-brand-citrine font-bold" data-i18n="nav_contact">اطلب تصميم</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20 overflow-hidden">
+        <div class="absolute inset-0 hero-pattern pointer-events-none"></div>
+        <div class="absolute top-0 -left-4 w-[500px] h-[500px] bg-brand-malachite/20 dark:bg-brand-citrine/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[120px] opacity-50 animate-blob"></div>
+        <div class="absolute top-1/4 -right-20 w-[400px] h-[400px] bg-brand-citrine/20 dark:bg-brand-malachite/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] opacity-50 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-32 left-1/3 w-[600px] h-[600px] bg-brand-shale/10 dark:bg-brand-shale/30 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[130px] opacity-60 animate-blob animation-delay-4000"></div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-white/60 dark:bg-brand-citrine/10 text-brand-basalt dark:text-brand-citrine text-sm font-bold mb-6 border border-brand-basalt/5 dark:border-brand-citrine/20 backdrop-blur-sm" data-aos="fade-down">
+                <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-malachite dark:bg-brand-citrine opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-brand-malachite dark:bg-brand-citrine"></span></span>
+                <span data-i18n="hero_status">متاح لاستلام المشاريع الجديدة</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-[1.1]" data-aos="fade-up" data-aos-delay="100">GM7studio <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-basalt to-brand-malachite dark:from-brand-white dark:to-brand-malachite" data-i18n="hero_subtitle">للإبداع الرقمي</span></h1>
+            <p class="text-brand-basalt/80 dark:text-brand-gypsum/70 text-lg md:text-2xl max-w-3xl mx-auto mb-12 leading-relaxed font-medium" data-aos="fade-up" data-aos-delay="200" data-i18n="hero_desc">نحول الأفكار المعقدة إلى هويات بصرية بسيطة وذكية. نركز على الجودة، التفاصيل الدقيقة، وخلق انطباع يدوم.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-5" data-aos="fade-up" data-aos-delay="300">
+                <a href="#portfolio" class="btn-hover-effect px-8 py-4 bg-brand-citrine text-brand-basalt font-bold rounded-xl flex items-center justify-center gap-2 transition-all">
+                    <span data-i18n="btn_explore">استكشف أعمالنا</span> <i data-lucide="arrow-down" class="w-5 h-5"></i>
+                </a>
+                <a href="https://wa.me/966501193569" target="_blank" class="btn-hover-effect px-8 py-4 border-2 border-brand-basalt/10 dark:border-brand-white/10 text-brand-basalt dark:text-white font-bold rounded-xl flex items-center justify-center gap-2 bg-brand-white/50 dark:bg-transparent backdrop-blur-sm transition-all">
+                    <span data-i18n="btn_whatsapp">واتساب</span> <i data-lucide="message-circle" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <div id="stats-section" class="border-y border-brand-basalt/5 dark:border-brand-white/5 bg-white/60 dark:bg-brand-shale/30 relative z-20 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-x-reverse divide-brand-basalt/10 dark:divide-brand-white/10 rtl:divide-x-reverse ltr:divide-x">
+                <div class="p-2 stat-item cursor-pointer group">
+                    <h3 class="text-4xl font-black text-brand-basalt dark:text-white mb-1 stat-number">+<span class="counter" data-target="5">0</span></h3>
+                    <p class="text-brand-basalt/60 dark:text-brand-gypsum/60 text-sm font-medium group-hover:text-brand-malachite dark:group-hover:text-brand-citrine transition-colors" data-i18n="stat_years">سنوات خبرة</p>
+                </div>
+                <div class="p-2 stat-item cursor-pointer group">
+                    <h3 class="text-4xl font-black text-brand-basalt dark:text-white mb-1 stat-number">+<span class="counter" data-target="120">0</span></h3>
+                    <p class="text-brand-basalt/60 dark:text-brand-gypsum/60 text-sm font-medium group-hover:text-brand-malachite dark:group-hover:text-brand-citrine transition-colors" data-i18n="stat_projects">مشروع مكتمل</p>
+                </div>
+                <div class="p-2 stat-item cursor-pointer group">
+                    <h3 class="text-4xl font-black text-brand-basalt dark:text-white mb-1 stat-number">+<span class="counter" data-target="50">0</span></h3>
+                    <p class="text-brand-basalt/60 dark:text-brand-gypsum/60 text-sm font-medium group-hover:text-brand-malachite dark:group-hover:text-brand-citrine transition-colors" data-i18n="stat_clients">عميل سعيد</p>
+                </div>
+                <div class="p-2 stat-item cursor-pointer group">
+                    <h3 class="text-4xl font-black text-brand-basalt dark:text-white mb-1 stat-number ltr-dir"><span class="counter" data-target="24">0</span>/<span class="counter" data-target="7">0</span></h3>
+                    <p class="text-brand-basalt/60 dark:text-brand-gypsum/60 text-sm font-medium group-hover:text-brand-malachite dark:group-hover:text-brand-citrine transition-colors" data-i18n="stat_support">دعم فني</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Partners Section -->
+    <section id="partners" class="py-16 bg-brand-white dark:bg-brand-shale/20 border-b border-brand-basalt/5 dark:border-brand-white/5 overflow-hidden">
+        <div class="container mx-auto px-6 relative">
+            <div class="text-center mb-10" data-aos="fade-up">
+                <h2 class="text-sm font-bold text-brand-malachite dark:text-brand-citrine uppercase tracking-wider mb-2" data-i18n="partners_title">شركاء النجاح</h2>
+                <h3 class="text-3xl font-black text-brand-basalt dark:text-white" data-i18n="partners_subtitle">نفخر بالعمل معهم</h3>
+            </div>
+            <div class="partners-slider relative w-full overflow-hidden">
+                <div class="partners-track animate-scroll flex items-center">
+                    <div class="w-32 h-20 flex-shrink-0 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"><img src="https://placehold.co/150x80/transparent/191919?text=Partner+1" class="dark:hidden"><img src="https://placehold.co/150x80/transparent/ffffff?text=Partner+1" class="hidden dark:block"></div>
+                    <div class="w-32 h-20 flex-shrink-0 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"><img src="https://placehold.co/150x80/transparent/191919?text=Partner+2" class="dark:hidden"><img src="https://placehold.co/150x80/transparent/ffffff?text=Partner+2" class="hidden dark:block"></div>
+                    <div class="w-32 h-20 flex-shrink-0 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"><img src="https://placehold.co/150x80/transparent/191919?text=Partner+3" class="dark:hidden"><img src="https://placehold.co/150x80/transparent/ffffff?text=Partner+3" class="hidden dark:block"></div>
+                    <div class="w-32 h-20 flex-shrink-0 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"><img src="https://placehold.co/150x80/transparent/191919?text=Partner+4" class="dark:hidden"><img src="https://placehold.co/150x80/transparent/ffffff?text=Partner+4" class="hidden dark:block"></div>
+                    <div class="w-32 h-20 flex-shrink-0 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"><img src="https://placehold.co/150x80/transparent/191919?text=Partner+5" class="dark:hidden"><img src="https://placehold.co/150x80/transparent/ffffff?text=Partner+5" class="hidden dark:block"></div>
+                    <div class="w-32 h-20 flex-shrink-0 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"><img src="https://placehold.co/150x80/transparent/191919?text=Partner+1" class="dark:hidden"><img src="https://placehold.co/150x80/transparent/ffffff?text=Partner+1" class="hidden dark:block"></div>
+                    <div class="w-32 h-20 flex-shrink-0 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"><img src="https://placehold.co/150x80/transparent/191919?text=Partner+2" class="dark:hidden"><img src="https://placehold.co/150x80/transparent/ffffff?text=Partner+2" class="hidden dark:block"></div>
+                    <div class="w-32 h-20 flex-shrink-0 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"><img src="https://placehold.co/150x80/transparent/191919?text=Partner+3" class="dark:hidden"><img src="https://placehold.co/150x80/transparent/ffffff?text=Partner+3" class="hidden dark:block"></div>
+                    <div class="w-32 h-20 flex-shrink-0 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"><img src="https://placehold.co/150x80/transparent/191919?text=Partner+4" class="dark:hidden"><img src="https://placehold.co/150x80/transparent/ffffff?text=Partner+4" class="hidden dark:block"></div>
+                    <div class="w-32 h-20 flex-shrink-0 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-60 hover:opacity-100"><img src="https://placehold.co/150x80/transparent/191919?text=Partner+5" class="dark:hidden"><img src="https://placehold.co/150x80/transparent/ffffff?text=Partner+5" class="hidden dark:block"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-transparent transition-colors">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6" data-aos="fade-up">
+                <div>
+                    <h2 class="text-sm font-bold text-brand-malachite dark:text-brand-citrine uppercase tracking-wider mb-2" data-i18n="services_title">خدماتنا</h2>
+                    <h3 class="text-3xl md:text-5xl font-black text-brand-basalt dark:text-white" data-i18n="services_heading">كيف يمكننا مساعدتك؟</h3>
+                </div>
+                <p class="text-brand-basalt/70 dark:text-brand-gypsum/60 max-w-md text-lg font-medium" data-i18n="services_desc">حلول تصميم متكاملة تناسب احتياجات مشروعك، من الفكرة الأولية حتى التنفيذ النهائي.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card-hover bg-white dark:bg-brand-basalt p-8 rounded-3xl shadow-xl shadow-brand-basalt/5 dark:shadow-none border border-brand-basalt/5 dark:border-brand-white/5 group" data-aos="fade-up">
+                    <div class="w-14 h-14 bg-brand-offwhite dark:bg-brand-shale rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-malachite dark:group-hover:bg-brand-citrine transition-colors duration-300">
+                        <i data-lucide="pen-tool" class="text-brand-basalt dark:text-white group-hover:text-white dark:group-hover:text-brand-basalt w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-brand-basalt dark:text-white" data-i18n="serv_identity_title">الهوية البصرية</h4>
+                    <p class="text-brand-basalt/60 dark:text-brand-gypsum/60 text-sm leading-relaxed mb-4" data-i18n="serv_identity_desc">تصميم شعارات وأنظمة بصرية تعكس قيم علامتك التجارية وتجعلها لا تُنسى.</p>
+                </div>
+                <div class="card-hover bg-white dark:bg-brand-basalt p-8 rounded-3xl shadow-xl shadow-brand-basalt/5 dark:shadow-none border border-brand-basalt/5 dark:border-brand-white/5 group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 bg-brand-offwhite dark:bg-brand-shale rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-malachite dark:group-hover:bg-brand-citrine transition-colors duration-300">
+                        <i data-lucide="package" class="text-brand-basalt dark:text-white group-hover:text-white dark:group-hover:text-brand-basalt w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-brand-basalt dark:text-white" data-i18n="serv_packaging_title">تصميم البكج</h4>
+                    <p class="text-brand-basalt/60 dark:text-brand-gypsum/60 text-sm leading-relaxed mb-4" data-i18n="serv_packaging_desc">تصميم العلب، الأكواب الورقية، والأكياس بأسلوب إبداعي يعزز قيمة المنتج.</p>
+                </div>
+                <div class="card-hover bg-white dark:bg-brand-basalt p-8 rounded-3xl shadow-xl shadow-brand-basalt/5 dark:shadow-none border border-brand-basalt/5 dark:border-brand-white/5 group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 bg-brand-offwhite dark:bg-brand-shale rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-malachite dark:group-hover:bg-brand-citrine transition-colors duration-300">
+                        <i data-lucide="share-2" class="text-brand-basalt dark:text-white group-hover:text-white dark:group-hover:text-brand-basalt w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-brand-basalt dark:text-white" data-i18n="serv_social_title">السوشيال ميديا</h4>
+                    <p class="text-brand-basalt/60 dark:text-brand-gypsum/60 text-sm leading-relaxed mb-4" data-i18n="serv_social_desc">تصاميم إبداعية لمنصات التواصل الاجتماعي تزيد من تفاعل الجمهور.</p>
+                </div>
+                <div class="card-hover bg-white dark:bg-brand-basalt p-8 rounded-3xl shadow-xl shadow-brand-basalt/5 dark:shadow-none border border-brand-basalt/5 dark:border-brand-white/5 group" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 bg-brand-offwhite dark:bg-brand-shale rounded-2xl flex items-center justify-center mb-6 group-hover:bg-brand-malachite dark:group-hover:bg-brand-citrine transition-colors duration-300">
+                        <i data-lucide="layout" class="text-brand-basalt dark:text-white group-hover:text-white dark:group-hover:text-brand-basalt w-7 h-7"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-brand-basalt dark:text-white" data-i18n="serv_print_title">المطبوعات</h4>
+                    <p class="text-brand-basalt/60 dark:text-brand-gypsum/60 text-sm leading-relaxed mb-4" data-i18n="serv_print_desc">كل ما يحتاج للطباعة من بروشورات وكروت شخصية بجودة عالية.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 bg-brand-offwhite dark:bg-brand-shale/10 relative">
+        <div class="container mx-auto px-6">
+             <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4" data-aos="fade-up">
+                <div>
+                    <h2 class="text-sm font-bold text-brand-malachite dark:text-brand-citrine uppercase tracking-wider mb-2" data-i18n="portfolio_title">معرض الأعمال</h2>
+                    <h3 class="text-3xl md:text-5xl font-black text-brand-basalt dark:text-white" data-i18n="portfolio_heading">آخر إبداعاتنا</h3>
+                </div>
+                <a href="#" class="group flex items-center gap-2 text-brand-basalt dark:text-white font-bold hover:text-brand-malachite dark:hover:text-brand-citrine transition-colors">
+                    <span data-i18n="view_all">مشاهدة كل الأعمال</span> 
+                    <i data-lucide="arrow-up-left" class="w-5 h-5 rtl:rotate-0 ltr:rotate-90 group-hover:-translate-y-1 group-hover:-translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1: Pelican -->
+                <div class="group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] shadow-lg dark:shadow-none" data-aos="fade-up">
+                    <img src="uploaded:Brand Rollout_compressed.pdf" alt="Pelican Cafe" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 bg-[#e04e39]"> <!-- Fallback color -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-basalt/90 via-brand-basalt/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0">
+                        <h3 class="text-2xl font-bold text-white mb-1" data-i18n="proj_pelican_title">مقهى بليكان</h3>
+                        <p class="text-brand-citrine font-medium" data-i18n="proj_cat_brand">هوية بصرية</p>
+                    </div>
+                </div>
+
+                <!-- Project 2: Kaf -->
+                <div class="group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] shadow-lg dark:shadow-none" data-aos="fade-up" data-aos-delay="100">
+                    <img src="uploaded:ك-04.jpg" alt="Kaf" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-basalt/90 via-brand-basalt/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0">
+                        <h3 class="text-2xl font-bold text-white mb-1" data-i18n="proj_kaf_title">كاف</h3>
+                        <p class="text-brand-citrine font-medium" data-i18n="proj_cat_brand">هوية بصرية</p>
+                    </div>
+                </div>
+
+                <!-- Project 3: Bunyan -->
+                <div class="group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] shadow-lg dark:shadow-none" data-aos="fade-up" data-aos-delay="200">
+                    <img src="uploaded:B-03.jpg" alt="Bunyan" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-basalt/90 via-brand-basalt/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0">
+                        <h3 class="text-2xl font-bold text-white mb-1" data-i18n="proj_bunyan_title">بنيان</h3>
+                        <p class="text-brand-citrine font-medium" data-i18n="proj_cat_brand">هوية بصرية</p>
+                    </div>
+                </div>
+
+                <!-- Project 4: Al Jabr -->
+                <div class="group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] shadow-lg dark:shadow-none" data-aos="fade-up">
+                    <img src="uploaded:ALJA-02.jpg" alt="Al Jabr" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-basalt/90 via-brand-basalt/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0">
+                        <h3 class="text-2xl font-bold text-white mb-1" data-i18n="proj_aljabr_title">الجبر</h3>
+                        <p class="text-brand-citrine font-medium" data-i18n="proj_cat_brand">هوية بصرية</p>
+                    </div>
+                </div>
+
+                <!-- Project 5: Shahd -->
+                <div class="group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] shadow-lg dark:shadow-none" data-aos="fade-up" data-aos-delay="100">
+                    <img src="uploaded:SHA-02.jpg" alt="Shahd" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-basalt/90 via-brand-basalt/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0">
+                        <h3 class="text-2xl font-bold text-white mb-1" data-i18n="proj_shahd_title">شهد</h3>
+                        <p class="text-brand-citrine font-medium" data-i18n="proj_cat_brand">هوية بصرية</p>
+                    </div>
+                </div>
+
+                <!-- Project 6: Ajzal -->
+                <div class="group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] shadow-lg dark:shadow-none" data-aos="fade-up" data-aos-delay="200">
+                    <img src="uploaded:أجزل.jpg" alt="Ajzal" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-basalt/90 via-brand-basalt/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0">
+                        <h3 class="text-2xl font-bold text-white mb-1" data-i18n="proj_ajzal_title">أجزل</h3>
+                        <p class="text-brand-citrine font-medium" data-i18n="proj_cat_brand">هوية بصرية</p>
+                    </div>
+                </div>
+
+                <!-- Project 7: Untitled -->
+                <div class="group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] shadow-lg dark:shadow-none" data-aos="fade-up">
+                    <img src="uploaded:Untitled-11-03.jpg" alt="Untitled" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-basalt/90 via-brand-basalt/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0">
+                        <h3 class="text-2xl font-bold text-white mb-1" data-i18n="proj_shahd_title">شهد (برتقالي)</h3>
+                        <p class="text-brand-citrine font-medium" data-i18n="proj_cat_brand">هوية بصرية</p>
+                    </div>
+                </div>
+
+                <!-- Project 8: Bajah -->
+                <div class="group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] shadow-lg dark:shadow-none" data-aos="fade-up" data-aos-delay="100">
+                    <img src="uploaded:باجة-02.jpg" alt="Bajah" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-basalt/90 via-brand-basalt/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0">
+                        <h3 class="text-2xl font-bold text-white mb-1" data-i18n="proj_bajah_title">باجة</h3>
+                        <p class="text-brand-citrine font-medium" data-i18n="proj_cat_brand">هوية بصرية</p>
+                    </div>
+                </div>
+
+                <!-- Project 9: Ghufran -->
+                <div class="group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] shadow-lg dark:shadow-none" data-aos="fade-up" data-aos-delay="200">
+                    <img src="uploaded:غفران.jpg" alt="Ghufran" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-basalt/90 via-brand-basalt/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0">
+                        <h3 class="text-2xl font-bold text-white mb-1" data-i18n="proj_ghufran_title">غفران</h3>
+                        <p class="text-brand-citrine font-medium" data-i18n="proj_cat_brand">هوية بصرية</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-white dark:bg-brand-shale transition-colors">
+        <div class="container mx-auto px-6">
+             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <div data-aos="fade-left">
+                    <h2 class="text-sm font-bold text-brand-malachite dark:text-brand-citrine uppercase tracking-wider mb-2" data-i18n="contact_title">تواصل معنا</h2>
+                    <h2 class="text-4xl md:text-6xl font-black mb-6 text-brand-basalt dark:text-white">
+                        <span data-i18n="contact_heading_1">لنبدأ مشروعك</span> <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-citrine to-orange-500" data-i18n="contact_heading_2">الاستثنائي</span>
+                    </h2>
+                    <p class="text-brand-basalt/60 dark:text-brand-gypsum/60 mb-10 text-lg leading-relaxed" data-i18n="contact_desc">سواء كنت تبدأ نشاطاً تجارياً جديداً أو تتطلع إلى تجديد علامتك الحالية، نحن هنا للمساعدة في تحقيق رؤيتك.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-6 group cursor-pointer">
+                            <div class="w-14 h-14 rounded-2xl bg-brand-gypsum dark:bg-brand-basalt flex items-center justify-center text-brand-basalt dark:text-brand-citrine group-hover:bg-brand-malachite dark:group-hover:bg-brand-citrine group-hover:text-white dark:group-hover:text-brand-basalt transition-all">
+                                <i data-lucide="mail" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <p class="text-brand-basalt/50 dark:text-brand-gypsum/50 text-sm font-bold mb-1" data-i18n="contact_email_label">راسلنا على</p>
+                                <p class="font-bold text-xl text-brand-basalt dark:text-white uppercase tracking-wider">GM7MOREY@GMAIL.COM</p>
+                            </div>
+                        </div>
+                        
+                        <a href="https://wa.me/966501193569" target="_blank" class="flex items-center gap-6 group cursor-pointer">
+                            <div class="w-14 h-14 rounded-2xl bg-brand-gypsum dark:bg-brand-basalt flex items-center justify-center text-brand-basalt dark:text-brand-citrine group-hover:bg-brand-malachite dark:group-hover:bg-brand-malachite group-hover:text-white dark:group-hover:text-white transition-all">
+                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="fill-current stroke-none"><path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.966-.944 1.164-.173.199-.347.223-.648.075-.301-.15-1.272-.468-2.421-1.491-.899-.8-1.505-1.79-1.68-2.089-.175-.299-.019-.461.131-.609.134-.133.298-.347.446-.521.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.199 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.572-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                            </div>
+                            <div>
+                                <p class="text-brand-basalt/50 dark:text-brand-gypsum/50 text-sm font-bold mb-1" data-i18n="contact_whatsapp_label">واتساب</p>
+                                <p class="font-bold text-xl text-brand-basalt dark:text-white" dir="ltr">+966 50 119 3569</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-brand-offwhite dark:bg-brand-basalt p-8 md:p-10 rounded-3xl border border-brand-basalt/5 dark:border-brand-white/5 shadow-2xl shadow-brand-basalt/10 dark:shadow-none" data-aos="fade-right">
+                    <form id="requestForm" action="https://formspree.io/f/xyzvekge" method="POST" onsubmit="handleSubmit(event)" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-brand-basalt dark:text-brand-gypsum/70 mb-2" data-i18n="form_name">الاسم</label>
+                                <input type="text" name="name" required class="form-input w-full bg-white dark:bg-brand-shale border border-brand-basalt/10 dark:border-brand-white/10 rounded-xl px-4 py-4 text-brand-basalt dark:text-white placeholder-brand-basalt/30 focus:border-brand-citrine transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-brand-basalt dark:text-brand-gypsum/70 mb-2" data-i18n="form_email">البريد الإلكتروني</label>
+                                <input type="email" name="email" required class="form-input w-full bg-white dark:bg-brand-shale border border-brand-basalt/10 dark:border-brand-white/10 rounded-xl px-4 py-4 text-brand-basalt dark:text-white placeholder-brand-basalt/30 focus:border-brand-citrine transition-all">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-brand-basalt dark:text-brand-gypsum/70 mb-2" data-i18n="form_type">نوع المشروع</label>
+                            <select name="project_type" class="form-input w-full bg-white dark:bg-brand-shale border border-brand-basalt/10 dark:border-brand-white/10 rounded-xl px-4 py-4 text-brand-basalt dark:text-white focus:border-brand-citrine transition-all cursor-pointer">
+                                <option value="Identity" data-i18n="opt_identity">تصميم هوية بصرية</option>
+                                <option value="Packaging" data-i18n="opt_packaging">تصميم بكج وعلب</option>
+                                <option value="Social Media" data-i18n="opt_social">تصميمات سوشيال ميديا</option>
+                                <option value="UI/UX" data-i18n="opt_ui">واجهة مستخدم (UI/UX)</option>
+                                <option value="Print" data-i18n="opt_print">مطبوعات وإعلانات</option>
+                                <option value="Other" data-i18n="opt_other">غير ذلك</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-brand-basalt dark:text-brand-gypsum/70 mb-2" data-i18n="form_details">تفاصيل المشروع</label>
+                            <textarea name="message" rows="4" class="form-input w-full bg-white dark:bg-brand-shale border border-brand-basalt/10 dark:border-brand-white/10 rounded-xl px-4 py-4 text-brand-basalt dark:text-white placeholder-brand-basalt/30 focus:border-brand-citrine transition-all resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-brand-citrine text-brand-basalt font-black py-4 rounded-xl btn-hover-effect transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-citrine/20">
+                            <span data-i18n="form_submit">إرسال الطلب</span> <i data-lucide="send" class="w-5 h-5 rtl:rotate-180"></i>
+                        </button>
+                        
+                        <div id="form-status" class="text-center text-sm font-bold hidden"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-brand-shale border-t border-brand-basalt/5 dark:border-brand-white/5 pt-12 pb-8 transition-colors">
+        <div class="container mx-auto px-6 text-center">
+            <a href="#" class="text-3xl font-black text-brand-basalt dark:text-white logo-text inline-block mb-8">
+                GM7<span class="text-brand-malachite dark:text-brand-citrine">studio</span>
+            </a>
+            
+            <div class="flex justify-center gap-4 mb-8">
+                <a href="https://instagram.com/gm7morey" target="_blank" class="w-12 h-12 rounded-full bg-brand-offwhite dark:bg-brand-basalt flex items-center justify-center hover:bg-brand-malachite dark:hover:bg-brand-citrine hover:text-white dark:hover:text-brand-basalt hover:-translate-y-1 transition-all duration-300">
+                    <i data-lucide="instagram" class="w-5 h-5"></i>
+                </a>
+                <a href="https://x.com/GM7morey" target="_blank" class="w-12 h-12 rounded-full bg-brand-offwhite dark:bg-brand-basalt flex items-center justify-center hover:bg-brand-malachite dark:hover:bg-brand-citrine hover:text-white dark:hover:text-brand-basalt hover:-translate-y-1 transition-all duration-300">
+                    <i data-lucide="twitter" class="w-5 h-5"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/gm7morey/" target="_blank" class="w-12 h-12 rounded-full bg-brand-offwhite dark:bg-brand-basalt flex items-center justify-center hover:bg-brand-malachite dark:hover:bg-brand-citrine hover:text-white dark:hover:text-brand-basalt hover:-translate-y-1 transition-all duration-300">
+                    <i data-lucide="linkedin" class="w-5 h-5"></i>
+                </a>
+                <a href="https://www.behance.net/GM7MOREY" target="_blank" class="w-12 h-12 rounded-full bg-brand-offwhite dark:bg-brand-basalt flex items-center justify-center hover:bg-brand-malachite dark:hover:bg-brand-citrine hover:text-white dark:hover:text-brand-basalt hover:-translate-y-1 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 11a3 3 0 1 0-2.6-5H2v12h3.4A3 3 0 0 0 8 13v-2z"/><path d="M14 7h7"/><path d="M17 17a3 3 0 0 0 0-6h-3v6h3z"/></svg>
+                </a>
+            </div>
+
+            <div class="border-t border-brand-basalt/5 dark:border-brand-white/5 pt-8">
+                <p class="text-brand-basalt/50 dark:text-brand-gypsum/50 text-sm font-medium" data-i18n="footer_copy">© 2025 GM7studio. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Updated Form Handling to support Formspree AJAX and Validation
+        const form = document.getElementById("requestForm");
+        
+        function validateEmail(email) {
+            // Basic email regex
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const status = document.getElementById("form-status");
+            const btn = form.querySelector('button');
+            const originalBtnText = btn.innerHTML;
+            const data = new FormData(event.target);
+            
+            // 1. Email Validation
+            const email = data.get('email');
+            if (!validateEmail(email)) {
+                status.innerHTML = currentLang === 'ar' ? "الرجاء إدخال بريد إلكتروني صحيح." : "Please enter a valid email address.";
+                status.className = "text-center text-sm font-bold text-red-500 mt-4 block";
+                return; // Stop submission
+            }
+
+            // Loading State
+            btn.innerHTML = currentLang === 'ar' ? 'جاري الإرسال...' : 'Sending...';
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            btn.disabled = true;
+            status.className = "hidden"; // Hide previous status
+
+            try {
+                const response = await fetch(event.target.action, {
+                    method: form.method,
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Success State
+                    status.innerHTML = currentLang === 'ar' ? "تم إرسال طلبك بنجاح! سنتواصل معك قريباً." : "Thanks! Your message has been sent.";
+                    status.className = "text-center text-sm font-bold text-brand-malachite mt-4 block";
+                    form.reset();
+                    
+                    // Reset Button
+                    btn.innerHTML = originalBtnText;
+                    btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                    btn.disabled = false;
+                    lucide.createIcons();
+                } else {
+                    // Error State
+                    const errorData = await response.json();
+                    if (Object.hasOwn(errorData, 'errors')) {
+                        status.innerHTML = errorData["errors"].map(error => error["message"]).join(", ");
+                    } else {
+                        status.innerHTML = currentLang === 'ar' ? "عذراً، حدث خطأ أثناء الإرسال." : "Oops! There was a problem submitting your form";
+                    }
+                    status.className = "text-center text-sm font-bold text-red-500 mt-4 block";
+                    
+                    // Reset Button
+                    btn.innerHTML = originalBtnText;
+                    btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                    btn.disabled = false;
+                    lucide.createIcons();
+                }
+            } catch (error) {
+                // Network Error State
+                status.innerHTML = currentLang === 'ar' ? "عذراً، حدث خطأ في الاتصال." : "Oops! There was a problem submitting your form";
+                status.className = "text-center text-sm font-bold text-red-500 mt-4 block";
+                
+                // Reset Button
+                btn.innerHTML = originalBtnText;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                btn.disabled = false;
+                lucide.createIcons();
+            }
+        }
+        
+        // No need to add event listener here because it's added inline in HTML (onsubmit="handleSubmit(event)")
+
+
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 60
+        });
+
+        // --- Language System ---
+        const translations = {
+            ar: {
+                nav_home: "الرئيسية",
+                nav_services: "خدماتي",
+                nav_portfolio: "أعمالي",
+                nav_contact: "اطلب تصميم",
+                hero_status: "متاح لاستلام المشاريع الجديدة",
+                hero_subtitle: "للإبداع الرقمي",
+                hero_desc: "نحول الأفكار المعقدة إلى هويات بصرية بسيطة وذكية. نركز على الجودة، التفاصيل الدقيقة، وخلق انطباع يدوم.",
+                btn_explore: "استكشف أعمالنا",
+                btn_whatsapp: "واتساب",
+                stat_years: "سنوات خبرة",
+                stat_projects: "مشروع مكتمل",
+                stat_clients: "عميل سعيد",
+                stat_support: "دعم فني",
+                partners_title: "شركاء النجاح",
+                partners_subtitle: "نفخر بالعمل معهم",
+                services_title: "خدماتنا",
+                services_heading: "كيف يمكننا مساعدتك؟",
+                services_desc: "حلول تصميم متكاملة تناسب احتياجات مشروعك، من الفكرة الأولية حتى التنفيذ النهائي.",
+                serv_identity_title: "الهوية البصرية",
+                serv_identity_desc: "تصميم شعارات وأنظمة بصرية تعكس قيم علامتك التجارية وتجعلها لا تُنسى.",
+                serv_packaging_title: "تصميم البكج",
+                serv_packaging_desc: "تصميم العلب، الأكواب الورقية، والأكياس بأسلوب إبداعي يعزز قيمة المنتج.",
+                serv_social_title: "السوشيال ميديا",
+                serv_social_desc: "تصاميم إبداعية لمنصات التواصل الاجتماعي تزيد من تفاعل الجمهور.",
+                serv_print_title: "المطبوعات",
+                serv_print_desc: "كل ما يحتاج للطباعة من بروشورات وكروت شخصية بجودة عالية.",
+                portfolio_title: "معرض الأعمال",
+                portfolio_heading: "آخر إبداعاتنا",
+                view_all: "مشاهدة كل الأعمال",
+                contact_title: "تواصل معنا",
+                contact_heading_1: "لنبدأ مشروعك",
+                contact_heading_2: "الاستثنائي",
+                contact_desc: "سواء كنت تبدأ نشاطاً تجارياً جديداً أو تتطلع إلى تجديد علامتك الحالية، نحن هنا للمساعدة في تحقيق رؤيتك.",
+                contact_email_label: "راسلنا على",
+                contact_whatsapp_label: "واتساب",
+                form_name: "الاسم",
+                form_email: "البريد الإلكتروني",
+                form_type: "نوع المشروع",
+                form_details: "تفاصيل المشروع",
+                form_submit: "إرسال الطلب",
+                footer_copy: "© 2025 GM7studio. جميع الحقوق محفوظة.",
+                opt_identity: "تصميم هوية بصرية",
+                opt_packaging: "تصميم بكج وعلب",
+                opt_social: "تصميمات سوشيال ميديا",
+                opt_ui: "واجهة مستخدم (UI/UX)",
+                opt_print: "مطبوعات وإعلانات",
+                opt_other: "غير ذلك",
+                proj_pelican_title: "مقهى بليكان",
+                proj_cat_brand: "هوية بصرية",
+                proj_ajzal_title: "أجزل",
+                proj_bunyan_title: "بنيان",
+                proj_aljabr_title: "الجبر",
+                proj_shahd_title: "شهد",
+                proj_bajah_title: "باجة",
+                proj_ghufran_title: "غفران",
+                proj_kaf_title: "كاف",
+                proj_identity_title: "تصميم هوية"
+            },
+            en: {
+                nav_home: "Home",
+                nav_services: "Services",
+                nav_portfolio: "Portfolio",
+                nav_contact: "Hire Us",
+                hero_status: "Available for new projects",
+                hero_subtitle: "Digital Creativity",
+                hero_desc: "We turn complex ideas into simple, smart visual identities. Focusing on quality, details, and creating lasting impressions.",
+                btn_explore: "Explore Work",
+                btn_whatsapp: "WhatsApp",
+                stat_years: "Years Experience",
+                stat_projects: "Completed Projects",
+                stat_clients: "Happy Clients",
+                stat_support: "Support",
+                partners_title: "Success Partners",
+                partners_subtitle: "Proud to work with",
+                services_title: "Our Services",
+                services_heading: "How can we help?",
+                services_desc: "Integrated design solutions fitting your project needs, from concept to final execution.",
+                serv_identity_title: "Brand Identity",
+                serv_identity_desc: "Logo designs and visual systems reflecting your brand values.",
+                serv_packaging_title: "Packaging Design",
+                serv_packaging_desc: "Creative designs for boxes, cups, and bags that enhance product value.",
+                serv_social_title: "Social Media",
+                serv_social_desc: "Creative designs for social platforms to boost audience engagement.",
+                serv_print_title: "Print Media",
+                serv_print_desc: "High-quality brochures, business cards, and all print necessities.",
+                portfolio_title: "Portfolio",
+                portfolio_heading: "Latest Creations",
+                view_all: "View All Work",
+                contact_title: "Contact Us",
+                contact_heading_1: "Let's Start Your",
+                contact_heading_2: "Extraordinary Project",
+                contact_desc: "Whether starting a new business or refreshing your current brand, we are here to help achieve your vision.",
+                contact_email_label: "Email Us",
+                contact_whatsapp_label: "WhatsApp",
+                form_name: "Name",
+                form_email: "Email",
+                form_type: "Project Type",
+                form_details: "Project Details",
+                form_submit: "Send Request",
+                footer_copy: "© 2025 GM7studio. All rights reserved.",
+                opt_identity: "Brand Identity",
+                opt_packaging: "Packaging Design",
+                opt_social: "Social Media Design",
+                opt_ui: "UI/UX Design",
+                opt_print: "Print & Ads",
+                opt_other: "Other",
+                proj_pelican_title: "Pelican Cafe",
+                proj_cat_brand: "Brand Identity",
+                proj_ajzal_title: "Ajzal",
+                proj_bunyan_title: "Bunyan",
+                proj_aljabr_title: "Al Jabr",
+                proj_shahd_title: "Shahd",
+                proj_bajah_title: "Bajah",
+                proj_ghufran_title: "Ghufran",
+                proj_kaf_title: "Kaf",
+                proj_identity_title: "Identity Design"
+            }
+        };
+
+        let currentLang = 'ar';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const langText = document.getElementById('lang-text');
+            const langTextMobile = document.getElementById('lang-text-mobile');
+            
+            if (langText) langText.innerText = currentLang === 'ar' ? 'EN' : 'AR';
+            if (langTextMobile) langTextMobile.innerText = currentLang === 'ar' ? 'EN' : 'AR';
+
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = currentLang;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    el.innerText = translations[currentLang][key];
+                }
+            });
+        }
+
+        // --- Theme System ---
+        const htmlElement = document.documentElement;
+        const themeIcon = document.getElementById('theme-icon');
+        const themeIconMobile = document.getElementById('theme-icon-mobile');
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+            updateIcons('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+            updateIcons('light');
+        }
+
+        function toggleTheme() {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.theme = 'light';
+                updateIcons('light');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.theme = 'dark';
+                updateIcons('dark');
+            }
+        }
+
+        function updateIcons(mode) {
+            const iconName = mode === 'dark' ? 'sun' : 'moon';
+            const updateIconElement = (element) => {
+                if(!element) return;
+                element.classList.add('rotate-icon');
+                setTimeout(() => {
+                    element.setAttribute('data-lucide', iconName);
+                    lucide.createIcons();
+                    element.classList.remove('rotate-icon');
+                }, 200);
+            };
+            updateIconElement(themeIcon);
+            updateIconElement(themeIconMobile);
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('py-3');
+                nav.classList.remove('py-4');
+            } else {
+                nav.classList.add('py-4');
+                nav.classList.remove('py-3');
+            }
+        });
+
+        // --- Counter Logic (Reset on Scroll) ---
+        const statsSection = document.querySelector('#stats-section');
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; 
+
+        if(statsSection) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        counters.forEach(counter => {
+                            const target = +counter.getAttribute('data-target');
+                            const inc = target / speed;
+                            
+                            const updateCount = () => {
+                                const current = +counter.innerText;
+                                if (current < target) {
+                                    counter.innerText = Math.ceil(current + inc);
+                                    setTimeout(updateCount, 30); // Slowed down slightly for visibility
+                                } else {
+                                    counter.innerText = target;
+                                }
+                            };
+                            updateCount();
+                        });
+                    } else {
+                        counters.forEach(counter => {
+                            counter.innerText = '0';
+                        });
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            observer.observe(statsSection);
+        }
+    </script>
+</body>
+</html>
