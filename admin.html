@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GM7studio | Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{brand:{citrine:'#F9B73F',basalt:'#191919',shale:'#114036',malachite:'#16AF8E',gypsum:'#F9F3D9',offwhite:'#fdfbf4'}}}}}</script>
+  <style>body{font-family:'IBM Plex Sans Arabic',sans-serif}.field{width:100%;border-radius:1rem;padding:1rem;background:#fff;border:1px solid rgba(25,25,25,.12)}.dark .field{background:#114036;border-color:rgba(255,255,255,.12);color:#fff}</style>
+</head>
+<body class="min-h-screen bg-brand-offwhite dark:bg-brand-basalt text-brand-basalt dark:text-brand-gypsum">
+  <main class="container mx-auto px-6 py-10 max-w-6xl">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8">
+      <div><p class="text-brand-malachite dark:text-brand-citrine font-black mb-2">GM7studio Admin</p><h1 class="text-4xl md:text-6xl font-black text-brand-basalt dark:text-white">إضافة مشروع جديد</h1></div>
+      <a href="GM77.html#portfolio" class="inline-flex items-center justify-center px-5 py-3 rounded-xl bg-brand-citrine text-brand-basalt font-black">العودة للموقع</a>
+    </div>
+    <section class="grid lg:grid-cols-[1.1fr_.9fr] gap-8">
+      <form id="projectForm" class="bg-white dark:bg-brand-shale rounded-2xl p-6 md:p-8 shadow-xl shadow-black/5 space-y-5">
+        <div class="grid md:grid-cols-2 gap-5"><label class="font-bold">اسم المشروع بالعربي<input name="titleAr" required class="field mt-2"></label><label class="font-bold">Project name in English<input name="titleEn" required class="field mt-2"></label></div>
+        <div class="grid md:grid-cols-2 gap-5"><label class="font-bold">التصنيف بالعربي<input name="categoryAr" value="هوية بصرية" class="field mt-2"></label><label class="font-bold">Category in English<input name="categoryEn" value="Brand Identity" class="field mt-2"></label></div>
+        <div class="grid md:grid-cols-2 gap-5"><label class="font-bold">السنة<input name="year" value="2026" class="field mt-2"></label><label class="font-bold">رابط أو اسم صورة الغلاف<input name="cover" placeholder="10.jpg" required class="field mt-2"></label></div>
+        <label class="font-bold block">وصف مختصر<textarea name="summaryAr" rows="3" class="field mt-2"></textarea></label>
+        <label class="font-bold block">English summary<textarea name="summaryEn" rows="3" class="field mt-2"></textarea></label>
+        <label class="font-bold block">صور المشروع، كل صورة في سطر<textarea name="images" rows="5" placeholder="10.jpg&#10;11.jpg" class="field mt-2"></textarea></label>
+        <button class="w-full bg-brand-citrine text-brand-basalt font-black py-4 rounded-xl flex items-center justify-center gap-2"><span>حفظ المشروع</span><i data-lucide="save" class="w-5 h-5"></i></button>
+        <p id="status" class="hidden text-center font-bold"></p>
+      </form>
+      <aside class="bg-brand-basalt dark:bg-brand-shale text-white rounded-2xl p-6 md:p-8 self-start">
+        <h2 class="text-2xl font-black mb-4">المشاريع المضافة من اللوحة</h2>
+        <div id="adminList" class="space-y-3 mb-6"></div>
+        <button id="exportBtn" class="w-full border border-white/20 py-3 rounded-xl font-bold">تصدير البيانات</button>
+        <textarea id="exportBox" class="hidden mt-4 w-full h-48 rounded-xl p-4 bg-black/30 text-white text-sm" readonly></textarea>
+      </aside>
+    </section>
+  </main>
+  <script src="data/projects.js"></script>
+  <script>
+    const form = document.getElementById('projectForm');
+    const list = document.getElementById('adminList');
+    const status = document.getElementById('status');
+        function slugify(value){ return value.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || ('project-' + Date.now()); }
+    function readStored(){ return JSON.parse(localStorage.getItem('gm7Projects') || '[]'); }
+    function writeStored(items){ localStorage.setItem('gm7Projects', JSON.stringify(items)); }
+    function renderList(){ const items=readStored(); list.innerHTML = items.length ? items.map(item => `<div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-white/10"><a class="font-bold" href="project.html?id=${item.id}">${item.title.ar}</a><button class="text-brand-citrine" onclick="removeProject('${item.id}')">حذف</button></div>`).join('') : '<p class="text-white/60">لا توجد مشاريع مضافة من اللوحة بعد.</p>'; }
+    function removeProject(id){ writeStored(readStored().filter(item => item.id !== id)); renderList(); }
+    form.addEventListener('submit', event => { event.preventDefault(); const data=new FormData(form); const images=(data.get('images') || '').split('\n').map(v => v.trim()).filter(Boolean); const cover=data.get('cover').trim(); const project={ id: slugify(data.get('titleEn') || data.get('titleAr')), title:{ar:data.get('titleAr').trim(),en:data.get('titleEn').trim()}, category:{ar:data.get('categoryAr').trim(),en:data.get('categoryEn').trim()}, year:data.get('year').trim(), cover, images: images.length ? images : [cover], summary:{ar:data.get('summaryAr').trim(),en:data.get('summaryEn').trim()} }; const items=readStored().filter(item => item.id !== project.id); items.push(project); writeStored(items); form.reset(); status.textContent='تم حفظ المشروع في هذه النسخة التجريبية.'; status.className='text-center font-bold text-brand-malachite'; renderList(); });
+    document.getElementById('exportBtn').addEventListener('click', () => { const box=document.getElementById('exportBox'); box.value=JSON.stringify(readStored(), null, 2); box.classList.toggle('hidden'); });
+    renderList(); lucide.createIcons();
+  </script>
+</body>
+</html>
+
+
+

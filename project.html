@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GM7studio | Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: { citrine: '#F9B73F', basalt: '#191919', shale: '#114036', malachite: '#16AF8E', gypsum: '#F9F3D9', offwhite: '#fdfbf4' } }, fontFamily: { sans: ['"IBM Plex Sans Arabic"', '"Outfit"', 'sans-serif'] } } } };
+  </script>
+  <style>body{font-family:'IBM Plex Sans Arabic',sans-serif}html[lang="en"] body{font-family:'Outfit',sans-serif}.logo-text{direction:ltr;display:inline-flex;align-items:center;gap:.25rem}</style>
+</head>
+<body class="bg-brand-offwhite dark:bg-brand-basalt text-brand-basalt dark:text-brand-gypsum min-h-screen">
+  <nav class="sticky top-0 z-40 bg-white/80 dark:bg-brand-shale/85 backdrop-blur-xl border-b border-brand-basalt/10 dark:border-white/10">
+    <div class="container mx-auto px-6 py-4 flex items-center justify-between gap-4">
+      <a href="GM77.html#portfolio" class="text-2xl font-black text-brand-basalt dark:text-white logo-text">GM7<span class="text-brand-malachite dark:text-brand-citrine">studio</span></a>
+      <div class="flex items-center gap-3">
+        <button id="langBtn" class="px-4 py-2 rounded-xl bg-brand-gypsum dark:bg-brand-basalt font-bold">EN</button>
+        <a href="GM77.html#portfolio" class="px-4 py-2 rounded-xl bg-brand-citrine text-brand-basalt font-black" data-label-ar="رجوع" data-label-en="Back">رجوع</a>
+      </div>
+    </div>
+  </nav>
+  <main id="projectRoot" class="container mx-auto px-6 py-10 md:py-16"></main>
+  <script src="data/projects.js"></script>
+  <script>
+    const stored = JSON.parse(localStorage.getItem('gm7Projects') || '[]');
+    const projects = [...window.GM7_PROJECTS, ...stored];
+    let lang = localStorage.getItem('gm7Lang') || 'ar';
+    const root = document.getElementById('projectRoot');
+    const id = new URLSearchParams(location.search).get('id') || projects[0]?.id;
+    const project = projects.find(item => item.id === id);
+    function text(value){ return typeof value === 'string' ? value : (value?.[lang] || value?.ar || value?.en || ''); }
+    function imagePath(src){ return src && (src.startsWith('http') || src.startsWith('data:')) ? src : src; }
+    function render(){
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      document.getElementById('langBtn').textContent = lang === 'ar' ? 'EN' : 'AR';
+      document.querySelector('[data-label-ar]').textContent = lang === 'ar' ? 'رجوع' : 'Back';
+      if(!project){ root.innerHTML = `<section class="min-h-[55vh] flex flex-col items-center justify-center text-center"><h1 class="text-4xl font-black mb-4">${lang === 'ar' ? 'المشروع غير موجود' : 'Project not found'}</h1><a href="GM77.html#portfolio" class="text-brand-malachite dark:text-brand-citrine font-bold">${lang === 'ar' ? 'العودة للمعرض' : 'Back to portfolio'}</a></section>`; return; }
+      const images = project.images && project.images.length ? project.images : [project.cover];
+      root.innerHTML = `
+        <header class="grid lg:grid-cols-[1fr_1.2fr] gap-10 items-end mb-12">
+          <div>
+            <p class="text-brand-malachite dark:text-brand-citrine font-black mb-3">${text(project.category)} · ${project.year || ''}</p>
+            <h1 class="text-5xl md:text-7xl font-black text-brand-basalt dark:text-white leading-tight mb-6">${text(project.title)}</h1>
+            <p class="text-lg md:text-xl leading-9 text-brand-basalt/70 dark:text-brand-gypsum/70">${text(project.summary)}</p>
+          </div>
+          <img src="${imagePath(project.cover)}" alt="${text(project.title)}" class="w-full aspect-[4/3] object-cover rounded-2xl shadow-2xl shadow-black/20">
+        </header>
+        <section class="grid md:grid-cols-2 gap-6">
+          ${images.map((src, index) => `<button class="group overflow-hidden rounded-2xl bg-white dark:bg-brand-shale" onclick="openImage('${imagePath(src).replace(/'/g, "\\'")}')"><img src="${imagePath(src)}" alt="${text(project.title)} ${index + 1}" class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"></button>`).join('')}
+        </section>
+        <div id="lightbox" class="hidden fixed inset-0 z-50 bg-black/90 p-4 items-center justify-center" onclick="this.classList.add('hidden');this.classList.remove('flex')"><img id="lightboxImg" class="max-w-full max-h-full rounded-xl" alt=""></div>`;
+      lucide.createIcons();
+    }
+    function openImage(src){ document.getElementById('lightboxImg').src = src; const box=document.getElementById('lightbox'); box.classList.remove('hidden'); box.classList.add('flex'); }
+    document.getElementById('langBtn').addEventListener('click', () => { lang = lang === 'ar' ? 'en' : 'ar'; localStorage.setItem('gm7Lang', lang); render(); });
+    render();
+  </script>
+</body>
+</html>
